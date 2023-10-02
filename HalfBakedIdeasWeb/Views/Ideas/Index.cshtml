@@ -1,0 +1,71 @@
+﻿@using HalfBakedIdeasWeb.Data.Models;
+
+@model IdeaFeedViewModel
+
+@{
+    ViewData["Title"] = "Ideas Feed";
+}
+
+<div class="">
+    <partial name="_NavigationPartial" />
+
+    <h1 class="display-5">Ideas Feed</h1>
+    <div class="ideas-wrapper">
+        <div class="left"><p>If you're seeing this, your ad could go here.</p></div>
+        <div class="middle">
+            <div class="">
+                @foreach (var idea in Model.Ideas)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@idea.Name</h5>
+                            <p>@idea.Description</p>
+                        </div>
+                        <div class="button-group">
+                            <button id="@(idea.Id + "_IWouldUseThis")" class="btn" title="I would use this" type="button">✋ <b class="num">@idea.IWouldUseThisVotes</b></button>
+                            <button id="@(idea.Id + "_IWouldBuyThis")" class="btn" title="I would buy this" type="button">💲 <b class="num">@idea.IWouldPayForThisVotes</b></button>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Ideas.Count == 0)
+                {
+                    <p style="display:flex; justify-content:center;">🤔 Looks like nothing is here yet. Submit more ideas!! 💡</p>
+                }
+            </div>
+            <div class="pager">
+                @if (Model.CanGoBackPage)
+                {
+                    <a href=@Model.GoBackQuery>@("<<")</a>
+                }
+                <p>@Model.CurrentPage</p>
+                @if (Model.CanGoForwardPage)
+                {
+                    <a href=@Model.GoFowardQuery>@(">>")</a>
+                }
+            </div>
+        </div>
+        <div class="right"><p>If you're seeing this, your ad could go here.</p></div>
+    </div>
+    
+</div>
+
+@section Scripts {
+    <script>
+        $('button')
+            .click(function (e) {
+                var target = $(this);
+                var id = $(this).attr('id');
+                var ideaId = id.split('_')[0];
+                var voteType = id.split('_')[1];
+
+                $.post(`/ideas/vote/${ideaId}/${voteType}`, function (response) {
+                    console.log(response);
+                    if (response.voted) {
+                        var votesEl = $(target).find('.num')[0];
+                        votesEl.innerHTML = response.count;
+                    }
+                })
+            });
+    </script>
+}

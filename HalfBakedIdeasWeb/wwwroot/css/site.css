@@ -1,0 +1,49 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.we-are-not-friends {
+    display: flex;
+    justify-content: space-between;
+    padding:5px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    padding:5px;
+}
+
+button {cursor:pointer;}
+
+.button-group button {margin-right:15px;}
+
+.card{margin-bottom:5px;}
+
+.pager {
+    display: flex;
+    justify-content: center;
+}
+
+.ideas-wrapper {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.ideas-wrapper .left, .ideas-wrapper .right {width:200px; border:1px solid black; background-color:lightgray;}
